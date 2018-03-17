@@ -1,0 +1,26 @@
+{
+  "name": "puppet-sample",
+  "version": "1.0.0",
+  "description": "Sample service using Puppeteer and serverless chrome",
+  "main": "index.js",
+  "scripts": {
+    "p": "git push origin master",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Puppeteer",
+    "Nodejs",
+    "Serverless",
+    "Chrome"
+  ],
+  "author": "Ernest Offiong",
+  "license": "MIT",
+  "engines": {
+    "node": "8.0.0",
+    "npm": "5.4.2"
+  },
+  "dependencies": {
+    "mongoose": "^4.13.4",
+    "puppeteer": "^0.13.0"
+  }
+}
