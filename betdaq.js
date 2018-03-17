@@ -16,6 +16,8 @@ const
   SELECTIONS_CONTAINER_SELECTOR = 'table.dataTable.marketViewSelections',
   MATCHED_AMOUNT_SELECTOR = 'span.gep-matchedamount';
 
+  
+
 
 async function bot() {
   // instantiate browser
@@ -49,85 +51,89 @@ async function bot() {
   await frame.$eval(SELECTIONS_CONTAINER_SELECTOR,
     (target, MATCHED_AMOUNT_SELECTOR) => {
       // listen for raceStart
-
-      target.addEventListener('DOMSubtreeModified', function (e) {
-        // check for most common element of back and lay as source of event
-        if (e.target.parentElement.parentElement.parentElement.parentElement.className == ('marketViewSelectionRow gep-altrow' || 'marketViewSelectionRow gep-row')) {
+      const observer = new MutationObserver( (mutations) => {
+        mutations.forEach(function (ed) {
+          const e = {
+            mutation: ed,
+            el: ed.target,
+            value: ed.target.textContent,
+            oldValue: ed.oldValue
+          };
+          if (e.el.parentElement.parentElement.parentElement.parentElement.className == ('marketViewSelectionRow gep-altrow' || 'marketViewSelectionRow gep-row')) {
           // define variables
           let
             betType,
             odds,
             liquidity,
             SELECTION;
-          SELECTION = e.target.parentElement.parentElement.parentElement.parentElement.children[0].children[2].children[0].children[0].children[2].children[0].innerText 
+          SELECTION = e.el.parentElement.parentElement.parentElement.parentElement.children[0].children[2].children[0].children[0].children[2].children[0].innerText
           // check 12 conditions
 
-          if ((e.target.className == 'price') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox backCell_0')) {
+          if ((e.el.className == 'price') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox backCell_0')) {
             betType = 'b0';
-            odds = e.target.innerText;
-            liquidity = e.target.parentElement.children[1].innerText;
+            odds = e.el.innerText;
+            liquidity = e.el.parentElement.children[1].innerText;
           }
-          else if ((e.target.className == 'price') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox layCell_0')) {
+          else if ((e.el.className == 'price') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox layCell_0')) {
             betType = 'l0';
-            odds = e.target.innerText;
-            liquidity = e.target.parentElement.children[1].innerText;
-                       
+            odds = e.el.innerText;
+            liquidity = e.el.parentElement.children[1].innerText;
           }
-          else if ((e.target.className == 'price') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox backCell_1')) {
+          else if ((e.el.className == 'price') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox backCell_1')) {
             betType = 'b1';
-            odds = e.target.innerText;
-            liquidity = e.target.parentElement.children[1].innerText;
+            odds = e.el.innerText;
+            liquidity = e.el.parentElement.children[1].innerText;
           }
-          else if ((e.target.className == 'price') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox layCell_1')) {
+          else if ((e.el.className == 'price') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox layCell_1')) {
             betType = 'l1';
-            odds = e.target.innerText;
-            liquidity = e.target.parentElement.children[1].innerText;
+            odds = e.el.innerText;
+            liquidity = e.el.parentElement.children[1].innerText;
           }
-          else if ((e.target.className == 'price') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox backCell_2')) {
+          else if ((e.el.className == 'price') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox backCell_2')) {
             betType = 'b2';
-            odds = e.target.innerText;
-            liquidity = e.target.parentElement.children[1].innerText;
+            odds = e.el.innerText;
+            liquidity = e.el.parentElement.children[1].innerText;
           }
-          else if ((e.target.className == 'price') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox layCell_2')) {
+          else if ((e.el.className == 'price') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox layCell_2')) {
             betType = 'l2';
-            odds = e.target.innerText;
-            liquidity = e.target.parentElement.children[1].innerText;
+            odds = e.el.innerText;
+            liquidity = e.el.parentElement.children[1].innerText;
           }
-          else if ((e.target.className == 'stake') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox backCell_0')) {
+          else if ((e.el.className == 'stake') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox backCell_0')) {
             betType = 'b0';
-            odds = e.target.parentElement.children[0].innerText;
-            liquidity = e.target.innerText;
+            odds = e.el.parentElement.children[0].innerText;
+            liquidity = e.el.innerText;
           }
-          else if ((e.target.className == 'stake') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox layCell_0')) {
+          else if ((e.el.className == 'stake') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox layCell_0')) {
             betType = 'l0';
-            odds = e.target.parentElement.children[0].innerText;
-            liquidity = e.target.innerText;
+            odds = e.el.parentElement.children[0].innerText;
+            liquidity = e.el.innerText;
           }
-          else if ((e.target.className == 'stake') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox backCell_1')) {
+          else if ((e.el.className == 'stake') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox backCell_1')) {
             betType = 'b1';
-            odds = e.target.parentElement.children[0].innerText;
-            liquidity = e.target.innerText;
+            odds = e.el.parentElement.children[0].innerText;
+            liquidity = e.el.innerText;
           }
-          else if ((e.target.className == 'stake') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox layCell_1')) {
+          else if ((e.el.className == 'stake') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox layCell_1')) {
             betType = 'l1';
-            odds = e.target.parentElement.children[0].innerText;
-            liquidity = e.target.innerText;
+            odds = e.el.parentElement.children[0].innerText;
+            liquidity = e.el.innerText;
           }
-          else if ((e.target.className == 'stake') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox backCell_2')) {
+          else if ((e.el.className == 'stake') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox backCell_2')) {
             betType = 'b2';
-            odds = e.target.parentElement.children[0].innerText;
-            liquidity = e.target.innerText;
+            odds = e.el.parentElement.children[0].innerText;
+            liquidity = e.el.innerText;
           }
-          else if ((e.target.className == 'stake') && (e.target.parentElement.parentElement.parentElement.className == 'priceBox layCell_2')) {
+          else if ((e.el.className == 'stake') && (e.el.parentElement.parentElement.parentElement.className == 'priceBox layCell_2')) {
             betType = 'l2';
-            odds = e.target.parentElement.children[0].innerText;
-            liquidity = e.target.innerText;
+            odds = e.el.parentElement.children[0].innerText;
+            liquidity = e.el.innerText;
           }
           if (!!betType && !!odds && !!liquidity && !!SELECTION) {
             let timestamp = new Date();
             timestamp = timestamp.toISOString();
             let matchedAmount = document.querySelector(MATCHED_AMOUNT_SELECTOR).innerText;
-            matchedAmount = Number(matchedAmount.replace(/\D/g, ''));
+            // matchedAmount = Number(matchedAmount.replace(/\D/g, ''));
             const data = {
               betType,
               matchedAmount,
@@ -140,9 +146,17 @@ async function bot() {
             const output = JSON.stringify(data);
             console.log(output);
           }
-        }
       }
-      );
+        });
+      });
+      observer.observe(target, {
+        attributes: true,
+        childList: false,
+        characterData: false,
+        characterDataOldValue: false,
+        subtree: true
+      });
+
     }, MATCHED_AMOUNT_SELECTOR);
 }
 
