@@ -3,12 +3,14 @@
 */
 //=============================================================================
 'use strict';
+
 if (process.env.NODE_ENV != 'production') {
   require('dotenv').config();
 }
 //=============================================================================
 // dependencies
-const P = require('puppeteer');
+const P = require('puppeteer'),
+  sendMail = require('./utils/sendMail.js');
 
 // module variables
 const
@@ -144,7 +146,30 @@ async function bot() {
 
             };
             const output = JSON.stringify(data);
-            console.log(output);
+            const msg = `All data checked out correctly`
+            // console.log(output);
+            sendMail(output, msg)
+          }else {
+            //how do i get a falsy
+            // create an object for them
+            let allContent = [
+              {name: 'matchedAmount', val: matchedAmount},
+              { name: 'odds', val: Number(odds) }, 
+              { name: 'selection', val: SELECTION },
+              { name: 'liquidity', val: Number(liquidity.slice(1)) }
+            ];
+            // filter out false content in val
+            let falseData = allContent.filter(word => !!(word.val) == false);
+            // create a new arr.. when filled it carries the name of properties that returned the false data
+            let data = [];
+            // push only name to the array
+            falseData.forEach(w => data.push(w.name));
+            // create an object to send
+            const output = {...data}
+            // create msg
+            const msg = `Some Elements returned with False data`
+            // call mail service
+            sendMail(output, msg)
           }
       }
         });
