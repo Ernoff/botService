@@ -14,7 +14,7 @@ const P = require('puppeteer'),
 
 // module variables
 const
-  EVENT_URL = 'https://www.betdaq.com/exchange/horse-racing/uk-racing/kempton-(17th-march-2018)/13-30-kempton/4776417',
+  EVENT_URL= process.env.EVENT_URL,
   SELECTIONS_CONTAINER_SELECTOR = 'table.dataTable.marketViewSelections',
   MATCHED_AMOUNT_SELECTOR = 'span.gep-matchedamount';
 

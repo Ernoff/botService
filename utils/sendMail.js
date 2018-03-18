@@ -18,7 +18,7 @@ const
     auth: {
       api_user: process.env.SendGridUsername,
       api_key: process.env.SendGridPassword,
-      email: process.env.email
+      email: process.env.Email
     }
   },
   mailer = nodemailer.createTransport(sgTransport(sgtOptions));
