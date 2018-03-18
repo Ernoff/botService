@@ -39,8 +39,15 @@ async function bot() {
   // bind to races container and lsiten for updates to , bets etc
   await page.$eval(SELECTIONS_CONTAINER_SELECTOR,
     (target, MATCHED_AMOUNT_SELECTOR) => {
-      target.addEventListener('DOMSubtreeModified', function (e) {
         // check for most common element of back and lay as source of event
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach(function (ed) {
+            const e = {
+              mutation: ed,
+              target: ed.target,
+              value: ed.target.textContent,
+              oldValue: ed.oldValue
+            };
         if (e.target.parentElement.parentElement.parentElement.parentElement.className == 'runner-line') {
           // define variables
           let
@@ -125,8 +132,7 @@ async function bot() {
 
             };
             const output = JSON.stringify(data);
-            // sendMail(output, msg)
-            console.log(output);
+            sendMail(output, msg)
           } else {
             // create an object for them
             let allContent = [
@@ -143,15 +149,22 @@ async function bot() {
             falseData.forEach(w => data.push(w.name));
             // create an object to send
             const output = { ...data };
-            console.log(output);
+            // console.log(output);
             // create msg
             const msg = `Some Elements returned with False data`;
             // call mail service
-            // sendMail(output, msg)
+            sendMail(output, msg)
           }
         }
-      }
-      );
+      });
+    });
+      observer.observe(target, {
+        attributes: true,
+        childList: false,
+        characterData: false,
+        characterDataOldValue: false,
+        subtree: true
+      });
     }, MATCHED_AMOUNT_SELECTOR);
 }
 // execute scraper
